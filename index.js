@@ -92,7 +92,7 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get('/app/', (req, res) => {
+app.post('/app/', (req, res) => {
     // Respond with status 200
     res.statusCode = 200;
     // Respond with status message "OK"
@@ -101,25 +101,25 @@ app.get('/app/', (req, res) => {
     res.end(res.statusCode + ' ' + res.statusMessage);
 });
 
-app.get('/app/flip', (req, res) => {
+app.post('/app/flip', (req, res) => {
     res.status(200).json({ flip: coinFlip() });
 });
 
-app.get('/app/flips/:number', (req, res) => {
+app.post('/app/flips/:number', (req, res) => {
     let arr = coinFlips(req.params.number);
     res.status(200).json({ raw: arr, summary: countFlips(arr) });
 });
 
-app.get('/app/flip/call/heads', (req, res) => {
+app.post('/app/flip/call/heads', (req, res) => {
     res.status(200).json(flipACoin("heads"));
 });
 
-app.get('/app/flip/call/tails', (req, res) => {
+app.post('/app/flip/call/tails', (req, res) => {
     res.status(200).json(flipACoin("tails"));
 });
 
 // Default response for any other request
-app.use(function (req, res) {
+app.post(function (req, res) {
     res.status(404).send('404 NOT FOUND');
     res.type("text/plain");
 });
