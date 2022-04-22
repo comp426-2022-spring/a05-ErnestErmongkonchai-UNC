@@ -110,6 +110,7 @@ app.post('/app/flips/:number', (req, res) => {
     res.status(200).json({ raw: arr, summary: countFlips(arr) });
 });
 
+/*
 app.post('/app/flip/call/heads', (req, res) => {
     res.status(200).json(flipACoin("heads"));
 });
@@ -117,6 +118,11 @@ app.post('/app/flip/call/heads', (req, res) => {
 app.post('/app/flip/call/tails', (req, res) => {
     res.status(200).json(flipACoin("tails"));
 });
+*/
+app.post('/app/flip/call/', (req, res, next) => {
+    const game = flipACoind(req.body.guess);
+    res.status(200).json(game);
+})
 
 // Default response for any other request
 app.post(function (req, res) {
