@@ -22,6 +22,9 @@ app.use(cors());
 // Serve static HTML files
 app.use(express.static('./public'));
 
+// Make Express use its own built-in body parser to handle JSON
+app.use(express.json());
+
 // Start an app server
 const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%', port))
