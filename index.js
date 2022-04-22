@@ -19,6 +19,9 @@ const port = args.port || process.env.PORT || 5555;
 const cors = require('cors');
 app.use(cors());
 
+// Serve static HTML files
+app.use(express.static('./public'));
+
 // Start an app server
 const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%', port))
