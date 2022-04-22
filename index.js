@@ -106,7 +106,7 @@ app.post('/app/flip', (req, res) => {
 });
 
 app.post('/app/flips/:number', (req, res) => {
-    let arr = coinFlips(req.params.number);
+    let arr = coinFlips(req.body.number);
     res.status(200).json({ raw: arr, summary: countFlips(arr) });
 });
 
