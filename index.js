@@ -4,7 +4,7 @@ const app = express();
 const fs = require('fs');
 
 // Require database SCRIPT file
-const db = require('./database.js');
+const db = require('./src/services/database.js');
 
 // Make Express use its own built-in body parser for both urlencoded and JSON body data.
 app.use(express.urlencoded({ extended: true }));
