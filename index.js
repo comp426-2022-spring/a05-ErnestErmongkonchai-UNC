@@ -120,6 +120,12 @@ app.post(function (req, res) {
     res.type("text/plain");
 });
 
+process.on('SIGTERM', () => {
+    server.close(() => {
+        console.log('Server stopped');
+    })
+})
+
 function coinFlip() {
     return (Math.random() > 0.5 ? "heads" : "tails");
 }
