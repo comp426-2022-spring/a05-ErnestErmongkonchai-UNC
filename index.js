@@ -1,27 +1,19 @@
-// Require Express.js
 const express = require('express');
 const app = express();
 const fs = require('fs');
-
-// Require database SCRIPT file
 const db = require('./src/services/database.js');
-
-// Make Express use its own built-in body parser for both urlencoded and JSON body data.
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// Require minimist
 const args = require('minimist')(process.argv.slice(2));
 args['port', 'debug', 'log', 'help'];
 const port = args.port || process.env.PORT || 5555;
 
-// Require cors
 const cors = require('cors');
 app.use(cors());
 
+// Make Express use its own built-in body parser for both urlencoded and JSON body data.
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 // Serve static HTML files
 app.use(express.static('./public'));
-
 // Make Express use its own built-in body parser to handle JSON
 app.use(express.json());
 
