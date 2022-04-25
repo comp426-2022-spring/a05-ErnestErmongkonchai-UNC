@@ -74,12 +74,34 @@
           <strong>Enter how many coins you want.</strong>
         </label>
         <input type="number" name="flipnumber" id="flipnumber">
-        <input type="submit" value="Flip 'em!">
+        <input type="submit" value="Flip coins.">
       </form>
 
-      <h2>Results</h2>
-      <p id="heads"></p>
-      <p id="tails"></p>
+      <div id="results_tbl" class="hidden">
+        <h2>Results</h2>
+        <table>
+          <thread>
+            <tr>
+              <th scope="col">Flip Outcome</th>
+              <th scopt="col">Number:</th>
+            </tr>
+          </thread>
+          <tbody>
+
+          </tbody>
+        </table>
+        
+        <h3>Details</h3>
+        <table>
+          <thread>
+            <tr>
+              <th scope="col">Flip Number</th>
+              <th scope="col">Flip Outcome</th>
+              <th scope="col"></th>
+            </tr>
+          </thread>
+        </table>
+      </div>
     </div>
 
     <div id="guess" class="hidden">
@@ -87,7 +109,7 @@
       <button id="ghead" onclick="guess_flip('heads')">Guess heads.</button>
       <button id="gtails" onclick="guess_flip('tails')">Guess tails.</button>
 
-      <h2>Your Guess.</h2>
+      <h2>Your Guess:</h2>
       <img src="assets/img/coin.png" id="your_call_img" class="smallcoin">
       
       <h3>Result.</h3>
