@@ -84,38 +84,44 @@ app.use((req, res, next) => {
     next();
 })
 
-app.post('/app/', (req, res) => {
+app.get('/app/', (req, res) => {
     res.statusCode = 200;
     res.statusMessage = 'OK';
     res.writeHead(res.statusCode, { 'Content-Type': 'text/plain' });
     res.end(res.statusCode + ' ' + res.statusMessage);
 });
 
-app.post('/app/flip', (req, res) => {
+app.get('/app/flip', (req, res) => {
     res.status(200).json({ flip: coinFlip() });
 });
 
-app.post('/app/flips/:number', (req, res) => {
+app.get('/app/flips/:number', (req, res) => {
     let arr = coinFlips(req.body.number);
     res.status(200).json({ raw: arr, summary: countFlips(arr) });
 });
 
-/*
-app.post('/app/flip/call/heads', (req, res) => {
+
+app.get('/app/flip/call/heads', (req, res) => {
     res.status(200).json(flipACoin("heads"));
 });
 
-app.post('/app/flip/call/tails', (req, res) => {
+app.get('/app/flip/call/tails', (req, res) => {
     res.status(200).json(flipACoin("tails"));
 });
-*/
+
 app.post('/app/flip/call/', (req, res, next) => {
     const game = flipACoind(req.body.guess);
     res.status(200).json(game);
 })
 
+app.post('/app/flips/coins/', (req, res, next) => {
+    const result = coinFlips(parseInt(req.body.number));
+    const count = countFlips(result);
+    res.status(200).json({"raw": result, "summary": count});
+})
+
 // Default response for any other request
-app.post(function (req, res) {
+app.use(function (req, res) {
     res.status(404).send('404 NOT FOUND');
     res.type("text/plain");
 });
