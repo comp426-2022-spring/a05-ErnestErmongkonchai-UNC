@@ -39,11 +39,65 @@
       
     </div>
     <div id="multi" class="hidden">
-      
+      <h1>Flip many coins</h1>
+			<form id="coins">
+				<label for="number">
+					<strong>How many coins?</strong>
+				</label>
+				<input type="number" name="number" id="number">
+				<input type="submit" value="Flip 'em!">
+			</form>
+
+			<h2>Results</h2>
+				<p id="heads"></p>
+				<p id="tails"></p>
     </div>
     <div id="guess" class="hidden">
       
     </div>
-	<script src="main.js"></script>
+	<script src="main.js">
+    			// Our flip many coins form
+			const coins = document.getElementById("coins")
+			// Add event listener for coins form
+			coins.addEventListener("submit", flipCoins)
+			// Create the submit handler
+			async function flipCoins(event) {
+				event.preventDefault();
+				
+				const endpoint = "app/flip/coins/"
+				const url = document.baseURI+endpoint
+
+				const formEvent = event.currentTarget
+
+				try {
+					const formData = new FormData(formEvent);
+					const flips = await sendFlips({ url, formData });
+
+					console.log(flips);
+					document.getElementById("heads").innerHTML = "Heads: "+flips.summary.heads;
+					document.getElementById("tails").innerHTML = "Tails: "+flips.summary.tails;
+				} catch (error) {
+					console.log(error);
+				}
+			}
+			// Create a data sender
+			async function sendFlips({ url, formData }) {
+				const plainFormData = Object.fromEntries(formData.entries());
+				const formDataJson = JSON.stringify(plainFormData);
+				console.log(formDataJson);
+
+				const options = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json"
+					},
+					body: formDataJson
+				};
+
+				const response = await fetch(url, options);
+				return response.json()
+			}
+  </script>
   </body>
 </html>
