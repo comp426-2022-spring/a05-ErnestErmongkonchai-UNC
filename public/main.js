@@ -1,5 +1,5 @@
 // Focus div based on nav button click
-document.getElementById("homenav").onclick = function() {
+document.getElementById("homenav").onclick = function () {
     document.location.reload();
     document.getElementById("homenav").className = "active";
     document.getElementById("singlenav").className = "";
@@ -12,7 +12,7 @@ document.getElementById("homenav").onclick = function() {
     document.getElementById("guess").className = "hidden";
 }
 
-document.getElementById("singlenav").onclick = function(){
+document.getElementById("singlenav").onclick = function () {
     document.getElementById("homenav").className = "";
     document.getElementById("singlenav").className = "active";
     document.getElementById("multinav").className = "";
@@ -24,7 +24,7 @@ document.getElementById("singlenav").onclick = function(){
     document.getElementById("guess").className = "hidden";
 };
 
-document.getElementById("multinav").onclick = function(){
+document.getElementById("multinav").onclick = function () {
     document.getElementById("homenav").className = "";
     document.getElementById("singlenav").className = "";
     document.getElementById("multinav").className = "active";
@@ -36,7 +36,7 @@ document.getElementById("multinav").onclick = function(){
     document.getElementById("guess").className = "hidden";
 };
 
-document.getElementById("guessnav").onclick = function(){
+document.getElementById("guessnav").onclick = function () {
     document.getElementById("homenav").className = "";
     document.getElementById("singlenav").className = "";
     document.getElementById("multinav").className = "";
@@ -49,91 +49,79 @@ document.getElementById("guessnav").onclick = function(){
 };
 // Flip one coin and show coin image to match result when button clicked
 function single_coin() {
-    fetch('http://localhost:5555/app/flip/', {mode: 'cors'}).then(function(response) {
+    fetch('http://localhost:5555/app/flip/', { mode: 'cors' }).then(function (response) {
         return response.json();
-    }).then(function(result) {
+    }).then(function (result) {
         console.log(result);
         document.getElementById("resultsingle").innerHTML = result.flip;
-        document.getElementById("quarter").src=`./assets/img/${result.flip}.png`
+        document.getElementById("quarter").src = `./assets/img/${result.flip}.png`
     })
 }
 // Flip multiple coins and show coin images in table as well as summary results
 // Enter number and press button to activate coin flip series
-
-// Guess a flip by clicking either heads or tails button
-
-
-
-
-// Event listener for whatever is being clicked 
-//			document.addEventListener("click", activeNow);
-// Replace text in anything with "active" id
-// function activeNow() {
-// 	const active_now = document.activeElement
-// 	document.getElementById("active").innerHTML = active_now;
-// 	console.log(active_now)
-// }
-// Button coin flip element
-const coin = document.getElementById("coin")
-// Add event listener for coin button
-coin.addEventListener("click", flipCoin)
-function flipCoin() {
-    fetch('http://localhost:5000/app/flip/', { mode: 'cors' })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (result) {
-            console.log(result);
-            document.getElementById("result").innerHTML = result.flip;
-            document.getElementById("quarter").setAttribute("src", result.flip + ".jpg");
-            coin.disabled = true
-        })
-}
-//				let flip = "FLIPPED"
-//				document.getElementById("coin").innerHTML = flip;
-//				console.log("Coin has been flipped. Result: "+ flip)
-
-
-
-// Our flip many coins form
-const coins = document.getElementById("coins")
-// Add event listener for coins form
-coins.addEventListener("submit", flipCoins)
-// Create the submit handler
-async function flipCoins(event) {
-    event.preventDefault();
-
-    const endpoint = "app/flip/coins/"
-    const url = document.baseURI + endpoint
-
-    const formEvent = event.currentTarget
-
-    try {
-        const formData = new FormData(formEvent);
-        const flips = await sendFlips({ url, formData });
-
-        console.log(flips);
-        document.getElementById("heads").innerHTML = "Heads: " + flips.summary.heads;
-        document.getElementById("tails").innerHTML = "Tails: " + flips.summary.tails;
-    } catch (error) {
-        console.log(error);
-    }
-}
-// Create a data sender
-async function sendFlips({ url, formData }) {
-    const plainFormData = Object.fromEntries(formData.entries());
-    const formDataJson = JSON.stringify(plainFormData);
-    console.log(formDataJson);
-
-    const options = {
-        method: "POST",
+function flipCoins() {
+    number_flips = document.getElementById("flipnumber").ariaValueMax;
+    fetch('http://localhost:5555/app/flips/coins', {
+        body: JSON.stringify({
+            "number": number_flips
+        }),
         headers: {
             "Content-Type": "application/json",
-            Accept: "application/json"
         },
-        body: formDataJson
-    };
+        method: "post"
+    }).then(function (response) {
+        return response.json();
+    }).then(function (result) {
+        console.log(result);
+        document.getElementById("num_heads").innerHTML = result.summary.heads;
+        document.getElementById("num_tails").innerHTML = result.summary.tails;
 
-    const response = await fetch(url, options);
-    return response.json()
+        var detailsTableBody = document.getElementById("details");
+        for (var i = 0; i < result.raw.length; i++) {
+            var currentRow = document.createElement("tr");
+
+            var currNumber = document.createElement("td");
+            currNumber.innerHTML = i + 1;
+            currentRow.appendChild(currNumber);
+
+            var currResult = document.createElement("td");
+            currResult.innerHTML = result.raw[i];
+            currentRow.appendChild(currResult);
+
+            var currImageCell = document.createElement("td");
+            var currImageActual = document.createElement("img");
+            currImageActual.setAttribute("src", "assets/img/" + result.raw[i] + ".png");
+            currImageActual.setAttribute("class", "smallcoin");
+            currImageCell.appendChild(currImageActual);
+            currentRow.appendChild(currImageCell);
+
+            detailsTableBody.appendChild(currentRow);
+        }
+        document.getElementById("results_tbl").setAttribute("class", "active");
+    })
+}
+// Guess a flip by clicking either heads or tails button
+function guess_flip(guess) {
+    console.log(guess);
+    fetch('http://localhost:5555/app/flip/call', {
+        body: JSON.stringify({
+            "guess": guess
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "post"
+    }).then(function (response) {
+        return response.json();
+    }).then(function (result) {
+        console.log(result);
+
+        document.getElementById("your_call").innerHTML = guess;
+        document.getElementById("your_call_img").setAttribute("src", "assets/img/" + guess + ".png")
+
+        document.getElementById("flip_result").innerHTML = result.flip;
+        document.getElementById("flip_result_img").setAttribute("src", "assets/img/" + result.flip + ".png");
+
+        document.getElementById("guess_result").innerHTML = "You " + result.result + ".";
+    })
 }
