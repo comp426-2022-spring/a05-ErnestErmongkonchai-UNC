@@ -38,6 +38,14 @@
     <meta name="msapplication-TileImage"
       content="assets/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+
+    <title>Demo Coin</title>
+    <style>
+			img#quarter {
+				width: 100px;
+			}
+		</style>
+
   </head>
   <body>
     <nav>
@@ -46,19 +54,26 @@
       <button id="multinav">Flip multiple coins</button>
       <button id="guessnav">Guess the result</button>
     </nav>
+
     <div id="home">
-
+      <h1>Coin Flip Simulator</h1>
+      <h2>Website that flips a coin...</h2>
     </div>
+
     <div id="single" class="hidden">
-
+      <h1>Flip single coin.</h1>
+      <button id="coin" onclick="one_coin()">Flip</button>
+      <p>RESULT: <span id="resultsingle"></span></p>
+      <img src="assests/img/coin.png" id="quarter" class="bigcoin">
     </div>
+
     <div id="multi" class="hidden">
       <h1>Flip many coins</h1>
-      <form id="coins">
-        <label for="number">
-          <strong>How many coins?</strong>
+      <form action="javascript:void(0);" method="post" onsubmit="flipCoins()">
+        <label for="flipnumber">
+          <strong>Enter how many coins you want.</strong>
         </label>
-        <input type="number" name="number" id="number">
+        <input type="number" name="flipnumber" id="flipnumber">
         <input type="submit" value="Flip 'em!">
       </form>
 
@@ -66,11 +81,11 @@
       <p id="heads"></p>
       <p id="tails"></p>
     </div>
+
     <div id="guess" class="hidden">
 
     </div>
-    <script src="main.js">
-    	
-  </script>
+
+    <script src="main.js"></script>
   </body>
 </html>

@@ -8,6 +8,38 @@
 // Guess a flip by clicking either heads or tails button
 
 
+
+
+// Event listener for whatever is being clicked 
+//			document.addEventListener("click", activeNow);
+// Replace text in anything with "active" id
+// function activeNow() {
+// 	const active_now = document.activeElement
+// 	document.getElementById("active").innerHTML = active_now;
+// 	console.log(active_now)
+// }
+// Button coin flip element
+const coin = document.getElementById("coin")
+// Add event listener for coin button
+coin.addEventListener("click", flipCoin)
+function flipCoin() {
+    fetch('http://localhost:5000/app/flip/', { mode: 'cors' })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (result) {
+            console.log(result);
+            document.getElementById("result").innerHTML = result.flip;
+            document.getElementById("quarter").setAttribute("src", result.flip + ".jpg");
+            coin.disabled = true
+        })
+}
+//				let flip = "FLIPPED"
+//				document.getElementById("coin").innerHTML = flip;
+//				console.log("Coin has been flipped. Result: "+ flip)
+
+
+
 // Our flip many coins form
 const coins = document.getElementById("coins")
 // Add event listener for coins form
@@ -15,9 +47,9 @@ coins.addEventListener("submit", flipCoins)
 // Create the submit handler
 async function flipCoins(event) {
     event.preventDefault();
-    
+
     const endpoint = "app/flip/coins/"
-    const url = document.baseURI+endpoint
+    const url = document.baseURI + endpoint
 
     const formEvent = event.currentTarget
 
@@ -26,8 +58,8 @@ async function flipCoins(event) {
         const flips = await sendFlips({ url, formData });
 
         console.log(flips);
-        document.getElementById("heads").innerHTML = "Heads: "+flips.summary.heads;
-        document.getElementById("tails").innerHTML = "Tails: "+flips.summary.tails;
+        document.getElementById("heads").innerHTML = "Heads: " + flips.summary.heads;
+        document.getElementById("tails").innerHTML = "Tails: " + flips.summary.tails;
     } catch (error) {
         console.log(error);
     }

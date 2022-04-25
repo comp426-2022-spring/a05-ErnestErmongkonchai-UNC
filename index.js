@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.static('./public'));
 // Make Express use its own built-in body parser to handle JSON
 app.use(express.json());
+app.use(express.static('./www'));
 
 // Start an app server
 const server = app.listen(port, () => {
