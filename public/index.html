@@ -83,7 +83,18 @@
     </div>
 
     <div id="guess" class="hidden">
+      <h1>Guess the flip.</h1>
+      <button id="ghead" onclick="guess_flip('heads')">Guess heads.</button>
+      <button id="gtails" onclick="guess_flip('tails')">Guess tails.</button>
 
+      <h2>Your Guess.</h2>
+      <img src="assets/img/coin.png" id="your_call_img" class="smallcoin">
+      
+      <h3>Result.</h3>
+      <img src="assests/img/coin.png" id="flip_result_img" class="smallcoin">
+
+      <h4>Outcome</h4>
+      <p><span id="guess_result"></span></p>
     </div>
 
     <script src="main.js"></script>
