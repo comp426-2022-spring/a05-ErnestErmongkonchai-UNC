@@ -85,9 +85,7 @@ app.use((req, res, next) => {
 })
 
 app.post('/app/', (req, res) => {
-    // Respond with status 200
     res.statusCode = 200;
-    // Respond with status message "OK"
     res.statusMessage = 'OK';
     res.writeHead(res.statusCode, { 'Content-Type': 'text/plain' });
     res.end(res.statusCode + ' ' + res.statusMessage);
