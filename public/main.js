@@ -60,7 +60,7 @@ function single_coin() {
 // Flip multiple coins and show coin images in table as well as summary results
 // Enter number and press button to activate coin flip series
 function flipCoins() {
-    number_flips = document.getElementById("flipnumber").ariaValueMax;
+    number_flips = document.getElementById("flipnumber").value;
     fetch('http://localhost:5555/app/flips/coins', {
         body: JSON.stringify({
             "number": number_flips
@@ -69,36 +69,38 @@ function flipCoins() {
             "Content-Type": "application/json",
         },
         method: "post"
-    }).then(function (response) {
-        return response.json();
-    }).then(function (result) {
-        console.log(result);
-        document.getElementById("num_heads").innerHTML = result.summary.heads;
-        document.getElementById("num_tails").innerHTML = result.summary.tails;
-
-        var detailsTableBody = document.getElementById("details");
-        for (var i = 0; i < result.raw.length; i++) {
-            var currentRow = document.createElement("tr");
-
-            var currNumber = document.createElement("td");
-            currNumber.innerHTML = i + 1;
-            currentRow.appendChild(currNumber);
-
-            var currResult = document.createElement("td");
-            currResult.innerHTML = result.raw[i];
-            currentRow.appendChild(currResult);
-
-            var currImageCell = document.createElement("td");
-            var currImageActual = document.createElement("img");
-            currImageActual.setAttribute("src", "assets/img/" + result.raw[i] + ".png");
-            currImageActual.setAttribute("class", "smallcoin");
-            currImageCell.appendChild(currImageActual);
-            currentRow.appendChild(currImageCell);
-
-            detailsTableBody.appendChild(currentRow);
-        }
-        document.getElementById("results_tbl").setAttribute("class", "active");
     })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (result) {
+            console.log(result);
+            document.getElementById("num_heads").innerHTML = result.summary.heads;
+            document.getElementById("num_tails").innerHTML = result.summary.tails;
+
+            var detailsTableBody = document.getElementById("details");
+            for (var i = 0; i < result.raw.length; i++) {
+                var currentRow = document.createElement("tr");
+
+                var currNumber = document.createElement("td");
+                currNumber.innerHTML = i + 1;
+                currentRow.appendChild(currNumber);
+
+                var currResult = document.createElement("td");
+                currResult.innerHTML = result.raw[i];
+                currentRow.appendChild(currResult);
+
+                var currImageCell = document.createElement("td");
+                var currImageActual = document.createElement("img");
+                currImageActual.setAttribute("src", "assets/img/" + result.raw[i] + ".png");
+                currImageActual.setAttribute("class", "smallcoin");
+                currImageCell.appendChild(currImageActual);
+                currentRow.appendChild(currImageCell);
+
+                detailsTableBody.appendChild(currentRow);
+            }
+            document.getElementById("results_tbl").setAttribute("class", "active");
+        })
 }
 // Guess a flip by clicking either heads or tails button
 function guess_flip(guess) {
