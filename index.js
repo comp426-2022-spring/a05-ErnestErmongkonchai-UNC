@@ -152,7 +152,6 @@ function coinFlips(flips) {
 }
 
 function countFlips(array) {
-    
     let heads = 0;
     let tails = 0;
     for (var i = 0; i < array.length; i++) {
