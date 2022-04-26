@@ -116,9 +116,9 @@ app.post('/app/flip/call/', (req, res, next) => {
 })
 
 app.post('/app/flips/coins/', (req, res, next) => {
-    const result = coinFlips(parseInt(req.body.number));
-    const count = countFlips(result);
-    res.status(200).json({"raw": result, "summary": count});
+    const result = coinFlips(parseInt(req.body.number))
+    const count = countFlips(result)
+    res.status(200).json({"raw": result, "summary": count})
 })
 
 // Default response for any other request
