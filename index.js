@@ -111,7 +111,7 @@ app.get('/app/flip/call/tails', (req, res) => {
 });
 
 app.post('/app/flip/call/', (req, res, next) => {
-    const game = flipACoind(req.body.guess);
+    const game = flipACoin(req.body.guess);
     res.status(200).json(game);
 })
 
