@@ -152,22 +152,22 @@ function coinFlips(flips) {
 }
 
 function countFlips(array) {
-    var counts = { heads: 0, tails: 0 };
-
+    let heads_count = 0;
+    let tails_count = 0;
     for (var i = 0; i < array.length; i++) {
-        if (array[i] == 'heads') {
-          heads.count++;
-        } else if (array[i] == 'tails') {
-          tails.count++;
-        }
-      };
-
-    if (counts.heads == 0)
-        delete counts.heads;
-    else if (counts.tails == 0)
-        delete counts.tails;
-
-    return counts;
+      if (array[i] == 'heads') {
+        heads_count ++;
+      } else if (array[i] == 'tails') {
+        tails_count ++;
+      }
+    }
+    if (heads_count == 0) {
+      return {"tails": tails_count};
+    }
+    else if (tails_count == 0) {
+      return {"heads": heads_count};
+    }
+    return {"heads": heads_count, "tails": tails_count};
 }
 
 function flipACoin(call) {
