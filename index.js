@@ -154,12 +154,13 @@ function coinFlips(flips) {
 function countFlips(array) {
     var counts = { heads: 0, tails: 0 };
 
-    array.forEach(element => {
-        if (element == "heads")
-            counts.heads++;
-        else
-            counts.tails++;
-    });
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] == 'heads') {
+          heads.count++;
+        } else if (array[i] == 'tails') {
+          tails.count++;
+        }
+      };
 
     if (counts.heads == 0)
         delete counts.heads;
