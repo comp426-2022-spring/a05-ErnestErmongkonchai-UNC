@@ -59,7 +59,9 @@ if (args.debug == true) {
     });
 }
 
-if (args.log == true) {
+if (args.log == false) {
+    console.log("NOTICE: not creating file access.log");
+} else{
     const morgan = require('morgan');
     const accessLog = fs.createWriteStream('access.log', { flags: 'a' });
     app.use(morgan('combined', { stream: accessLog }));
@@ -138,20 +140,15 @@ function coinFlip() {
 }
 
 function coinFlips(flips) {
-    const flipResults = [];
-    const output = { raw: [], summary: "" };
-
-    for (var i = 0; i < flips; i++) {
-        flipResults.push(coinFlip());
+    let array = [];
+    for (let i = 1; i <= flips; i++) {
+        array.push(coinFlip());
     }
-
-    output.raw = flipResults;
-    output.summary = countFlips(flipResults);
-
-    return output;
+    return array;
 }
 
 function countFlips(array) {
+    /*
     let heads = 0;
     let tails = 0;
     for (var i = 0; i < array.length; i++) {
@@ -166,16 +163,30 @@ function countFlips(array) {
     } else if (tails == 0) {
       return {"heads": heads};
     }
-    return {"heads": heads, "tails": tails};
+    return {"heads": heads, "tails": tails};*/
+    let counter = {};
+    array.forEach(item => {
+        if (counter[item]) {
+            counter[item]++;
+        } else {
+            counter[item] = 1;
+        }
+    });
+    return counter;
 }
 
 function flipACoin(call) {
-    var result = coinFlip();
-    const output = { call: "", flip: "", result: "" };
-
-    output.call = call;
-    output.flip = result;
-    output.result = (call == result ? "win" : "lose");
-
-    return output;
+    let flip = coinFlip();
+    let result;
+    if ( flip == call ) {
+        result = 'win'
+    } else {
+        result = 'lose'
+    }
+    let game = {
+        call: call,
+        flip: flip,
+        result: result
+    }
+    return game
 }
